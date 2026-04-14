@@ -12,8 +12,9 @@ The fact that most high-quality games are paid has led me to question the impact
 This project aims to analyze whether high-rated and high-priced games are actually more popular, and whether price and rating factors play a decisive role in game success. I also aim to analyze the influence of other factors on popularity in this project.
 
 ## Data Sources 
-### 1) Steam Games Dataset <br>
-   The primary dataset contains information on over 120,000 games. It includes key variables such as game name, genre, price, release date, and, most importantly, the number of user reviews. In this project, the number of reviews is used as the main indicator of popularity, reflecting how many players have interacted with a game.<br>
+### 1) Steam Games Dataset 
+   The primary dataset contains information on over 120,000 games. It includes key variables such as game name, genre, price, release date, and, most importantly, the number of user reviews. In this project, the number of reviews is used as the main indicator of popularity, reflecting how many players have interacted with a game.
+   
    Link: https://www.kaggle.com/datasets/fronkongames/steam-games-dataset
 
 3) Video Games Sales
