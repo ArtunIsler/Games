@@ -1,3 +1,2 @@
 # The Impact of Pricing and Ratings on Video Game Popularity
-
-Proposal is submitted as DSA-210 project proposal in pdf format 
+Project Ouestion: "How do pricing and ratings influence the popularity of video games?"
