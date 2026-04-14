@@ -63,9 +63,9 @@ In this project, the analysis focuses on the following aspects:
 
    
 ## AI Usage
-I use Chat-gpt and Cloude for;
- - Debugging and refactoring Python code
- - Visualization for Collab
+I use Chatgpt and Claude for;
+ - Code Support from Claude.
+ - Organization and enhancing documentation with Chatgpt.
 
   
 
