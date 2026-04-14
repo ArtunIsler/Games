@@ -13,14 +13,20 @@ This project aims to analyze whether high-rated and high-priced games are actual
 
 ## Data Sources 
 1) Steam Games Dataset
+   
    Link: https://www.kaggle.com/datasets/fronkongames/steam-games-dataset
+   
    First dataset includes over 120,000 games categorized by variables such as title, genre, price, release date, developer, and number of user reviews.
 
-2) Video Games Sales
+3) Video Games Sales
+   
    Link: https://www.kaggle.com/datasets/gregorut/videogamesales
+   
    Second dataset include around 17.000 records about genre, price, release day and global sales figures.
 
-3) Steam Spy API
+5) Steam Spy API
+   
    Link: https://www.kaggle.com/datasets/muhammadaqeelkabir/steam-games-dataset-steamspy-api
+   
    Third dataset provides ownership estimates, playtime data and rewiew counts (positive vs negative) and pricing.
    
