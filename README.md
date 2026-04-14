@@ -40,5 +40,12 @@ In this project due to size issue of files, they cannot be uploaded directly. Th
 
 
 ## Exploratory Data Analysis (EDA)
-- 
+- In this project, the analysis focuses on the following aspects:
+
+- - The distribution of game prices and popularity (review counts)
+The comparison between free and paid games in terms of popularity
+The effect of different price categories on popularity
+The relationship between playtime and popularity
+The impact of game genres on popularity
+The relationship between rating (user score / review ratio) and popularity
 
