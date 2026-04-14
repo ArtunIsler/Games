@@ -13,7 +13,7 @@ This project aims to analyze whether high-rated and high-priced games are actual
 
 
 ## Popularity Description
-- Popularity is defined as the total number of user reviews a game has received on Steam. This metric is used as the main indicator of player engagement and interest. Additionally, global sales data is considered as a secondary measure to support the analysis and reflect the commercial success of games.
+- Popularity is defined as the number of user reviews on Steam. Price is taken directly from the listed game price, and ratings are measured using the Critic Score and User Score variables from the Video Game Sales dataset. Together, these variables will allow a data-driven investigation of how pricing and ratings relate to video game popularity and overall market performance.
 
 ## Data Sources 
 ### 1) Steam Games Dataset 
