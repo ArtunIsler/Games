@@ -60,7 +60,8 @@ In this project, the analysis focuses on the following aspects:
  - H3: Games with longer playtime are more popular.
  - H4: Game genre has an effect on popularity.
  - H5: Higher-rated games are more popular.
- - 
+
+   
 ## AI Usage
 I use Chat-gpt and Cloude for;
  - Debugging and refactoring Python code
