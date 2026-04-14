@@ -31,7 +31,14 @@ This project aims to analyze whether high-rated and high-priced games are actual
 
 In this project due to size issue of files, they cannot be uploaded directly. Therefore, links to the files are provided below their respective descriptions.
 
+
 ## Data Collection 
 - Step 1: The datasets are downloaded manually and uploaded into Google Colab. Each dataset provides different types of information, such as game prices, user reviews, playtime, and sales figures.
 - Step 2: After the datasets are loaded, inconsistencies in the datasets are corrected. For example, column alignments are corrected and it is ensured that game titles are in the correct format. Missing and irrelevant values ​​are removed, and only the necessary columns are selected for further analysis.
-- Step 3: 
+- Step 3: The SteamSpy and Video Game Sales datasets were cleaned and reduced to usable rows. These datasets were then merged with the main Steam dataset, categorized by game title.
+- Step 4: After merging, in the final step, additional variables such as total_reviews, price categories, rating (derived from positive and negative reviews), and popularity_rank are created.
+
+
+## Exploratory Data Analysis (EDA)
+- 
+
