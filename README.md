@@ -12,7 +12,7 @@ The fact that most high-quality games are paid has led me to question the impact
 This project aims to analyze whether high-rated and high-priced games are actually more popular, and whether price and rating factors play a decisive role in game success. I also aim to analyze the influence of other factors on popularity in this project.
 
 
-## Popularity description
+## Popularity Description
 - 
 
 ## Data Sources 
