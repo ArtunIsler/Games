@@ -28,5 +28,6 @@ This project aims to analyze whether high-rated and high-priced games are actual
 - The third dataset  provides information such as estimated ownership rate, average playtime, and the distribution of positive and negative reviews. These variables make it possible to understand player behavior and interaction more deeply, and are particularly useful for analyzing factors such as playtime and ratings.
 
 - Link: https://www.kaggle.com/datasets/muhammadaqeelkabir/steam-games-dataset-steamspy-api
-   
+
+In this project due to size issue of files, they cannot be uploaded directly. Therefore, links to the files are provided below their respective descriptions.
    
