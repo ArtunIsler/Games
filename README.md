@@ -49,3 +49,11 @@ In this project, the analysis focuses on the following aspects:
  - The impact of game genres on popularity
  - The relationship between rating (user score / review ratio) and popularity
 
+
+## Hypothesis
+ - H1: Free games are more popular than paid games.
+ - H2: Popularity differs across different price categories.
+ - H3: Games with longer playtime are more popular.
+ - H4: Game genre has an effect on popularity.
+ - H5: Higher-rated games are more popular.
+
