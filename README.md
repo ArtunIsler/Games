@@ -2,7 +2,7 @@
 DSA210 Term Project / Spring 2025-2026 <br>
 Student: Artun İşler
 
-# 1) Motivation 
+## Motivation 
 
 
 My primary reason for choosing this project is my interest in video games and my future plans related to the gaming industry. Games have become an indispensable part of the entertainment industry today, and many people (including myself) turn to this sector to fill their free time.
