@@ -30,4 +30,8 @@ This project aims to analyze whether high-rated and high-priced games are actual
 - Link: https://www.kaggle.com/datasets/muhammadaqeelkabir/steam-games-dataset-steamspy-api
 
 In this project due to size issue of files, they cannot be uploaded directly. Therefore, links to the files are provided below their respective descriptions.
-   
+
+## Data Collection 
+- Step 1: The datasets are downloaded manually and uploaded into Google Colab. Each dataset provides different types of information, such as game prices, user reviews, playtime, and sales figures.
+- Step 2: After the datasets are loaded, inconsistencies in the datasets are corrected. For example, column alignments are corrected and it is ensured that game titles are in the correct format. Missing and irrelevant values ​​are removed, and only the necessary columns are selected for further analysis.
+- Step 3: 
