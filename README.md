@@ -54,7 +54,6 @@ In this project, the analysis focuses on the following aspects:
  - The relationship between rating (user score / review ratio) and popularity
 
 
-## Hypothesis
  ## Hypotheses
 
 ### H1: Free vs Paid Games — Popularity
