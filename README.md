@@ -55,25 +55,29 @@ In this project, the analysis focuses on the following aspects:
 
 
 ## Hypothesis
- - HYPOTHESIS 1: Free vs Paid Games — Popularity
- --H0: There is no significant difference in popularity between free and paid games.
- --H1: Free and paid games differ significantly in popularity.
-   
- - HYPOTHESIS 2: Price Category vs Popularity
-   --H0: Popularity does not differ across price categories.
-   --H1: Popularity differs significantly across price categories.
+ ## Hypotheses
 
- - HYPOTHESIS 3: Playtime vs Popularity
-   --H0: There is no significant correlation between average playtime and popularity.
-   --H1: Games with longer playtime are more popular.
-   
- - HYPOTHESIS 4: HYPOTHESIS 4: Game Genre vs Popularity
-  --H0: Game genre does not influence popularity.
-  --H1: Some genres are significantly more popular than others.
-   
- -HYPOTHESIS 5: User Score vs Popularity
-   --H0: No correlation between user score and popularity
-   --H1: Higher-rated games are more popular, one-tailed
+### H1: Free vs Paid Games — Popularity
+- H0: There is no significant difference in popularity between free and paid games.
+- H1: There is a significant difference in popularity between free and paid games. (two-tailed)
+
+### H2: Price Category vs Popularity
+- H0: Popularity does not differ across price categories.
+- H1: Popularity differs significantly across price categories. (two-tailed)
+
+### H3: Playtime vs Popularity
+- H0: There is no correlation between average playtime and popularity.
+- H1: There is a significant correlation between average playtime and popularity. (two-tailed)
+
+### H4: Game Genre vs Popularity
+- H0: Game genre does not influence popularity.
+- H1: Popularity differs significantly across game genres. (two-tailed)
+
+### H5: User Score vs Popularity
+- H0: There is no correlation between user score and popularity.
+- H1: There is a positive correlation between user score and popularity. (one-tailed)
+
+> Note: Due to the extremely small sample size after filtering, the results for H5 are not statistically reliable and should be interpreted with caution.
    
 ## AI Usage
 I use Chatgpt and Claude for;
