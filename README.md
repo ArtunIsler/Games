@@ -66,9 +66,11 @@ In this project, the analysis focuses on the following aspects:
  - HYPOTHESIS 3: Playtime vs Popularity
    --H0: There is no significant correlation between average playtime and popularity.
    --H1: Games with longer playtime are more popular.
+   
  - HYPOTHESIS 4: HYPOTHESIS 4: Game Genre vs Popularity
   --H0: Game genre does not influence popularity.
   --H1: Some genres are significantly more popular than others.
+   
  -HYPOTHESIS 5: User Score vs Popularity
    --H0: No correlation between user score and popularity
    --H1: Higher-rated games are more popular, one-tailed
