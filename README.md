@@ -55,12 +55,23 @@ In this project, the analysis focuses on the following aspects:
 
 
 ## Hypothesis
- - H1: Free games are more popular than paid games.
- - H2: Popularity differs across different price categories.
- - H3: Games with longer playtime are more popular.
- - H4: Game genre has an effect on popularity.
- - H5: Higher-rated games are more popular.
+ - HYPOTHESIS 1: Free vs Paid Games — Popularity
+ --H0: There is no significant difference in popularity between free and paid games.
+ --H1: Free and paid games differ significantly in popularity.
+   
+ - HYPOTHESIS 2: Price Category vs Popularity
+   --H0: Popularity does not differ across price categories.
+   --H1: Popularity differs significantly across price categories.
 
+ - HYPOTHESIS 3: Playtime vs Popularity
+   --H0: There is no significant correlation between average playtime and popularity.
+   --H1: Games with longer playtime are more popular.
+ - HYPOTHESIS 4: HYPOTHESIS 4: Game Genre vs Popularity
+  --H0: Game genre does not influence popularity.
+  --H1: Some genres are significantly more popular than others.
+ -HYPOTHESIS 5: User Score vs Popularity
+   --H0: No correlation between user score and popularity
+   --H1: Higher-rated games are more popular, one-tailed
    
 ## AI Usage
 I use Chatgpt and Claude for;
