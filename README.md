@@ -77,6 +77,16 @@ In this project, the analysis focuses on the following aspects:
 - H1: There is a positive correlation between user score and popularity. (one-tailed)
 
 > Note: Due to the extremely small sample size after filtering, the results for H5 are not statistically reliable and should be interpreted with caution.
+
+
+##  Machine Learning
+
+In this project, machine learning is used to predict video game popularity based on features such as price, rating, genre, and playtime.
+
+Different models (Linear Regression, Ridge, and Random Forest) are compared to find the most accurate predictions, while K-Means clustering is used to identify patterns and group similar games.
+
+Overall, machine learning helps both in making predictions and understanding which factors influence game popularity the most.
+
    
 ## AI Usage
 I use Chatgpt and Claude for;
