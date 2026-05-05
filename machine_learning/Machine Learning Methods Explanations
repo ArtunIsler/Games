@@ -1,0 +1,61 @@
+## Machine Learning
+
+### Purpose
+
+The purpose of using machine learning in this project is to predict video game popularity and understand which game features affect popularity the most.
+
+In this project, popularity is measured by the number of user reviews. Since review counts are highly skewed, the target variable was transformed using:
+
+`log(total_reviews + 1)`
+
+This makes the data easier for machine learning models to learn from.
+
+### Features Used
+
+The models use the following features to predict popularity:
+
+- Price
+- Free or paid status
+- Rating
+- Average playtime
+- Game genre
+
+### Models Used
+
+#### Linear Regression
+
+Linear Regression was used as the baseline model. It helps us understand whether there is a simple linear relationship between game features and popularity.
+
+#### Ridge Regression
+
+Ridge Regression was used as an improved linear model. It applies regularization to reduce overfitting and make predictions more stable.
+
+#### Random Forest Regressor
+
+Random Forest was used as the main prediction model. It can capture more complex and non-linear relationships between features and popularity. This model also provides feature importance, which helps identify which variables affect popularity the most.
+
+#### K-Means Clustering
+
+K-Means was used to group games into similar categories based on price, popularity, and rating. This helps reveal hidden patterns in the dataset, such as cheap and popular games or expensive niche games.
+
+### Model Evaluation
+
+The regression models were compared using:
+
+- RMSE
+- MAE
+- R² score
+
+These metrics show how close the model predictions are to the actual popularity values.
+
+### Results
+
+Random Forest performed better than the linear models because it was able to capture complex relationships in the data.
+
+The results showed that features such as rating, price, free/paid status, genre, and playtime can help explain video game popularity.
+
+The clustering results also showed that games can be separated into different groups based on their popularity and characteristics.
+
+### Conclusion
+
+Machine learning allowed this project to go beyond basic data analysis. Instead of only describing trends, the models learned patterns from the data, predicted game popularity, compared different methods, and identified which factors were most important.
