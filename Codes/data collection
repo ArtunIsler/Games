@@ -1,0 +1,148 @@
+# Data Collection & Cleaning
+
+import pandas as pd
+import numpy as np
+
+# ============================================================
+# STEP 1: LOAD DATASETS
+# ============================================================
+print("Loading datasets...")
+
+# Steam dataset — note: columns are shifted, AppID column contains game titles
+steam_raw = pd.read_csv("games.csv", index_col=0)
+
+# SteamSpy dataset
+steamspy = pd.read_csv("steam_games_dataset.csv")
+
+# Video Game Sales dataset
+vgsales = pd.read_csv("vgsales.csv")
+
+print(f"Steam raw:   {steam_raw.shape[0]:,} rows, {steam_raw.shape[1]} columns")
+print(f"SteamSpy:    {steamspy.shape[0]:,} rows, {steamspy.shape[1]} columns")
+print(f"VGSales:     {vgsales.shape[0]:,} rows, {vgsales.shape[1]} columns")
+
+
+# ============================================================
+# STEP 2: CLEAN STEAM DATASET
+# ============================================================
+print("\nCleaning Steam dataset...")
+
+# Note: In this dataset, the 'AppID' column contains game titles
+# and the 'Name' column contains release dates due to a column shift
+steam = steam_raw.copy()
+steam = steam.rename(columns={
+    "AppID": "title",
+    "Price": "price",
+    "Positive": "positive_reviews",
+    "Negative": "negative_reviews",
+    "Genres": "genres"
+})
+
+# Keep only relevant columns
+steam = steam[["title", "price", "positive_reviews", "negative_reviews", "genres"]].copy()
+
+# Calculate total reviews (used as popularity proxy)
+steam["total_reviews"] = steam["positive_reviews"] + steam["negative_reviews"]
+
+# Remove games with no reviews (not enough engagement data)
+steam = steam[steam["total_reviews"] > 0]
+
+# Remove outlier prices (over $200 likely DLC bundles or errors)
+steam = steam[steam["price"] <= 200]
+
+# Standardize title for merging
+steam["title_clean"] = steam["title"].str.lower().str.strip()
+
+print(f"Steam after cleaning: {steam.shape[0]:,} rows")
+
+
+# ============================================================
+# STEP 3: CLEAN STEAMSPY DATASET
+# ============================================================
+print("\nCleaning SteamSpy dataset...")
+
+spy = steamspy[["name", "owners", "average_forever", "userscore"]].copy()
+spy.columns = ["title", "owners", "avg_playtime_minutes", "user_score"]
+spy["title_clean"] = spy["title"].str.lower().str.strip()
+
+print(f"SteamSpy after cleaning: {spy.shape[0]:,} rows")
+
+
+# ============================================================
+# STEP 4: CLEAN VGSALES DATASET
+# ============================================================
+print("\nCleaning VGSales dataset...")
+
+vg = vgsales[["Name", "Platform", "Genre", "Global_Sales"]].copy()
+vg.columns = ["title", "platform", "genre", "global_sales"]
+vg = vg.dropna(subset=["title"])
+vg["title_clean"] = vg["title"].str.lower().str.strip()
+
+# Keep highest selling entry for duplicate titles
+vg = vg.sort_values("global_sales", ascending=False)
+vg = vg.drop_duplicates(subset=["title_clean"], keep="first")
+
+print(f"VGSales after cleaning: {vg.shape[0]:,} rows")
+
+
+# ============================================================
+# STEP 5: MERGE DATASETS
+# ============================================================
+print("\nMerging datasets...")
+
+# Merge Steam + SteamSpy
+merged = steam.merge(spy[["title_clean", "owners", "avg_playtime_minutes", "user_score"]],
+                     on="title_clean", how="left")
+
+# Merge with VGSales
+merged = merged.merge(vg[["title_clean", "platform", "genre", "global_sales"]],
+                      on="title_clean", how="left")
+
+# Drop helper column
+merged.drop(columns=["title_clean"], inplace=True)
+
+# Reset index
+merged.reset_index(drop=True, inplace=True)
+
+print(f"Merged dataset: {merged.shape[0]:,} rows, {merged.shape[1]} columns")
+
+
+# ============================================================
+# STEP 6: FINALIZE
+# ============================================================
+print("\nFinalizing dataset...")
+
+# Popularity rank based on total review count (1 = most popular)
+# method="first" ensures no ties and integer-safe ranking
+merged["popularity_rank"] = merged["total_reviews"].rank(ascending=False, method="first")
+
+# Rating column — sourced from SteamSpy user scores
+# (0 means no score available for that game)
+merged["rating"] = merged["user_score"]
+
+# Free-to-play flag
+merged["is_free"] = (merged["price"] == 0).astype(int)
+
+print(f"Final dataset: {merged.shape[0]:,} rows, {merged.shape[1]} columns")
+print(f"\nColumns: {list(merged.columns)}")
+
+
+# ============================================================
+# STEP 7: SAVE
+# ============================================================
+merged.to_csv("video_games_clean.csv", index=False)
+print("\nSaved as: video_games_clean.csv")
+
+
+# ============================================================
+# STEP 8: SUMMARY STATISTICS
+# ============================================================
+print("\n--- Summary Statistics ---")
+print(merged[["price", "total_reviews", "avg_playtime_minutes", "global_sales"]].describe().round(2))
+
+print("\n--- Missing Values ---")
+print(merged.isnull().sum())
+
+print("\n--- Top 10 Most Popular Games (by review count) ---")
+top10 = merged.nlargest(10, "total_reviews")[["title", "price", "total_reviews", "genres"]]
+print(top10.to_string(index=False))
