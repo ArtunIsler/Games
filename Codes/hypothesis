@@ -1,0 +1,268 @@
+# ============================================================
+# DSA210 - Video Game Popularity Analysis
+# Hypothesis Testing
+#
+# Research Question:
+# How do pricing and ratings influence the popularity of video games?
+#
+# Hypotheses:
+# H1: Free games are significantly more popular than paid games.
+# H2: Popularity differs significantly across price categories.
+# H3: Games with longer playtime are more popular.
+# H4: Some genres are significantly more popular than others.
+# H5: Higher-rated games are more popular.
+# ============================================================
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy import stats
+import warnings
+warnings.filterwarnings("ignore")
+
+sns.set_theme(style="whitegrid")
+plt.rcParams["figure.figsize"] = (10, 5)
+plt.rcParams["font.size"] = 12
+
+# Load cleaned dataset
+df = pd.read_csv("video_games_clean.csv")
+print(f"Dataset loaded: {df.shape[0]:,} rows, {df.shape[1]} columns")
+
+
+# ============================================================
+# HYPOTHESIS 1: Free vs Paid Games — Popularity
+#
+# H0: There is no significant difference in popularity
+#     between free and paid games.
+# H1: Free games are significantly more popular than paid games.
+#
+# Test: Mann-Whitney U Test (non-parametric, skewed distribution)
+# ============================================================
+print("\n" + "="*60)
+print("HYPOTHESIS 1: Free vs Paid Games — Popularity")
+print("="*60)
+
+free_reviews = df[df["is_free"] == 1]["total_reviews"]
+paid_reviews = df[df["is_free"] == 0]["total_reviews"]
+
+stat, p = stats.mannwhitneyu(free_reviews, paid_reviews, alternative="greater")
+
+print(f"Free games  — Median reviews: {free_reviews.median():,.0f}")
+print(f"Paid games  — Median reviews: {paid_reviews.median():,.0f}")
+print(f"Mann-Whitney U statistic: {stat:,.0f}")
+print(f"P-value: {p:.6f}")
+
+if p < 0.05:
+    print("Result: REJECT H0 — Free games are significantly more popular than paid games.")
+else:
+    print("Result: FAIL TO REJECT H0 — No significant difference found.")
+
+# Visualization
+plt.figure(figsize=(8, 5))
+sns.boxplot(data=df, x="is_free", y=np.log1p(df["total_reviews"]),
+            palette=["#DD8452", "#4C72B0"])
+plt.xticks([0, 1], ["Paid", "Free"])
+plt.title("H1: Popularity Distribution — Free vs Paid Games")
+plt.xlabel("Game Type")
+plt.ylabel("log(Total Reviews + 1)")
+plt.tight_layout()
+plt.savefig("h1_free_vs_paid.png", dpi=150)
+plt.show()
+print("Saved: h1_free_vs_paid.png")
+
+
+# ============================================================
+# HYPOTHESIS 2: Price Category vs Popularity
+#
+# H0: Popularity does not differ across price categories.
+# H1: Popularity differs significantly across price categories.
+#
+# Test: Kruskal-Wallis Test (non-parametric ANOVA)
+# ============================================================
+print("\n" + "="*60)
+print("HYPOTHESIS 2: Price Category vs Popularity")
+print("="*60)
+
+bins = [-1, 0, 999, 2999, 5999, 200000]
+labels = ["Free", "$0.01-$9.99", "$10-$29.99", "$30-$59.99", "$60+"]
+df["price_category"] = pd.cut(df["price"], bins=bins, labels=labels)
+
+groups = [group["total_reviews"].values
+          for _, group in df.groupby("price_category", observed=True)]
+
+stat, p = stats.kruskal(*groups)
+
+print("Median reviews by price category:")
+print(df.groupby("price_category", observed=True)["total_reviews"].median().round(1).to_string())
+print(f"\nKruskal-Wallis statistic: {stat:.4f}")
+print(f"P-value: {p:.6f}")
+
+if p < 0.05:
+    print("Result: REJECT H0 — Popularity differs significantly across price categories.")
+else:
+    print("Result: FAIL TO REJECT H0 — No significant difference across price categories.")
+
+# Visualization
+cat_medians = df.groupby("price_category", observed=True)["total_reviews"].median()
+plt.figure(figsize=(10, 5))
+bars = plt.bar(cat_medians.index, cat_medians.values, color="#4C72B0", edgecolor="white")
+for bar, val in zip(bars, cat_medians.values):
+    plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 1,
+             f"{int(val):,}", ha="center", va="bottom", fontsize=10, fontweight="bold")
+plt.title("H2: Median Popularity by Price Category")
+plt.xlabel("Price Category")
+plt.ylabel("Median Total Reviews")
+plt.tight_layout()
+plt.savefig("h2_price_category.png", dpi=150)
+plt.show()
+print("Saved: h2_price_category.png")
+
+
+# ============================================================
+# HYPOTHESIS 3: Playtime vs Popularity
+#
+# H0: There is no significant correlation between average
+#     playtime and popularity.
+# H1: Games with longer playtime are more popular.
+#
+# Test: Spearman Rank Correlation (non-parametric)
+# ============================================================
+print("\n" + "="*60)
+print("HYPOTHESIS 3: Playtime vs Popularity")
+print("="*60)
+
+spy_df = df.dropna(subset=["avg_playtime_minutes"])
+spy_df = spy_df[spy_df["avg_playtime_minutes"] > 0]
+
+corr, p = stats.spearmanr(spy_df["avg_playtime_minutes"], spy_df["total_reviews"])
+
+print(f"Games with playtime data: {spy_df.shape[0]:,}")
+print(f"Spearman correlation (r): {corr:.4f}")
+print(f"P-value: {p:.6f}")
+
+if p < 0.05:
+    direction = "positive" if corr > 0 else "negative"
+    print(f"Result: REJECT H0 — There is a significant {direction} correlation between playtime and popularity.")
+else:
+    print("Result: FAIL TO REJECT H0 — No significant correlation found.")
+
+# Visualization
+plt.figure(figsize=(9, 5))
+plt.scatter(np.log1p(spy_df["avg_playtime_minutes"]),
+            np.log1p(spy_df["total_reviews"]),
+            alpha=0.3, s=8, color="#55A868")
+plt.title(f"H3: Playtime vs Popularity (Spearman r = {corr:.3f}, p = {p:.4f})")
+plt.xlabel("log(Avg Playtime in Minutes + 1)")
+plt.ylabel("log(Total Reviews + 1)")
+plt.tight_layout()
+plt.savefig("h3_playtime_vs_popularity.png", dpi=150)
+plt.show()
+print("Saved: h3_playtime_vs_popularity.png")
+
+
+# ============================================================
+# HYPOTHESIS 4: Game Genre vs Popularity
+#
+# H0: Game genre does not influence popularity.
+# H1: Some genres are significantly more popular than others.
+#
+# Test: Kruskal-Wallis Test (non-parametric ANOVA)
+# ============================================================
+print("\n" + "="*60)
+print("HYPOTHESIS 4: Game Genre vs Popularity")
+print("="*60)
+
+genre_df = df.dropna(subset=["genres"]).copy()
+genre_df = genre_df.assign(genre=genre_df["genres"].str.split(",")).explode("genre")
+genre_df["genre"] = genre_df["genre"].str.strip()
+
+top_genres = genre_df["genre"].value_counts().head(10).index
+genre_df = genre_df[genre_df["genre"].isin(top_genres)]
+
+groups = [group["total_reviews"].values
+          for _, group in genre_df.groupby("genre")]
+
+stat, p = stats.kruskal(*groups)
+
+print("Median reviews by genre (top 10):")
+genre_medians = genre_df.groupby("genre")["total_reviews"].median().sort_values(ascending=False)
+print(genre_medians.round(1).to_string())
+print(f"\nKruskal-Wallis statistic: {stat:.4f}")
+print(f"P-value: {p:.6f}")
+
+if p < 0.05:
+    print("Result: REJECT H0 — Game genre significantly influences popularity.")
+else:
+    print("Result: FAIL TO REJECT H0 — No significant difference across genres.")
+
+# Visualization
+plt.figure(figsize=(12, 5))
+bars = plt.bar(genre_medians.index, genre_medians.values, color="#C44E52", edgecolor="white")
+plt.title("H4: Median Popularity by Genre (Top 10)")
+plt.xlabel("Genre")
+plt.ylabel("Median Total Reviews")
+plt.xticks(rotation=45, ha="right")
+plt.tight_layout()
+plt.savefig("h4_genre_popularity.png", dpi=150)
+plt.show()
+print("Saved: h4_genre_popularity.png")
+
+
+# ============================================================
+# HYPOTHESIS 5: User Rating vs Popularity
+#
+# H0: There is no significant correlation between user rating
+#     and popularity.
+# H1: Higher-rated games are significantly more popular.
+#
+# Test: Spearman Rank Correlation (non-parametric)
+# ============================================================
+print("\n" + "="*60)
+print("HYPOTHESIS 5: User Rating vs Popularity")
+print("="*60)
+
+rating_df = df.dropna(subset=["rating"])
+rating_df = rating_df[rating_df["rating"] > 0]
+
+corr, p = stats.spearmanr(rating_df["rating"], rating_df["total_reviews"])
+
+print(f"Games with rating data: {rating_df.shape[0]:,}")
+print(f"Spearman correlation (r): {corr:.4f}")
+print(f"P-value: {p:.6f}")
+
+if p < 0.05:
+    direction = "positive" if corr > 0 else "negative"
+    print(f"Result: REJECT H0 — There is a significant {direction} correlation between user rating and popularity.")
+else:
+    print("Result: FAIL TO REJECT H0 — No significant correlation between rating and popularity.")
+
+# Visualization
+plt.figure(figsize=(9, 5))
+plt.scatter(rating_df["rating"],
+            np.log1p(rating_df["total_reviews"]),
+            alpha=0.4, s=15, color="#8172B2")
+plt.title(f"H5: User Rating vs Popularity (Spearman r = {corr:.3f}, p = {p:.4f})")
+plt.xlabel("User Rating (SteamSpy Score)")
+plt.ylabel("log(Total Reviews + 1)")
+plt.tight_layout()
+plt.savefig("h5_rating_vs_popularity.png", dpi=150)
+plt.show()
+print("Saved: h5_rating_vs_popularity.png")
+
+
+# ============================================================
+# SUMMARY TABLE
+# ============================================================
+print("\n" + "="*60)
+print("HYPOTHESIS TESTING SUMMARY")
+print("="*60)
+print(f"{'Hypothesis':<10} {'Test':<25} {'Significance'}")
+print("-"*60)
+print(f"{'H1':<10} {'Mann-Whitney U':<25} {'α = 0.05'}")
+print(f"{'H2':<10} {'Kruskal-Wallis':<25} {'α = 0.05'}")
+print(f"{'H3':<10} {'Spearman Correlation':<25} {'α = 0.05'}")
+print(f"{'H4':<10} {'Kruskal-Wallis':<25} {'α = 0.05'}")
+print(f"{'H5':<10} {'Spearman Correlation':<25} {'α = 0.05'}")
+print("\nNote: All tests are non-parametric due to the highly")
+print("skewed distribution of video game review counts.")
